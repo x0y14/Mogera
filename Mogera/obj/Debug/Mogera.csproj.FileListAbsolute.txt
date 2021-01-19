@@ -1,0 +1,6 @@
+/Users/x0y14/dev/csharp/Mogera/Mogera/bin/Debug/Mogera.exe
+/Users/x0y14/dev/csharp/Mogera/Mogera/bin/Debug/Mogera.pdb
+/Users/x0y14/dev/csharp/Mogera/Mogera/obj/Debug/Mogera.csprojAssemblyReference.cache
+/Users/x0y14/dev/csharp/Mogera/Mogera/obj/Debug/Mogera.csproj.CoreCompileInputs.cache
+/Users/x0y14/dev/csharp/Mogera/Mogera/obj/Debug/Mogera.exe
+/Users/x0y14/dev/csharp/Mogera/Mogera/obj/Debug/Mogera.pdb
