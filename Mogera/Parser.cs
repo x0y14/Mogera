@@ -49,11 +49,14 @@ namespace Mogera
         
         protected void ConsumeWhiteSpace()
         {
+            var safegard = 0;
+            var p = Pos;
             while (!IsEof())
             {
-                if (string.IsNullOrWhiteSpace(GetChar()) || GetChar() == "\n")
+                if (GetChar() == " " || GetChar() == "\n" || GetChar() == "\t" || string.IsNullOrWhiteSpace(GetChar()))
                 {
                     ConsumeChar();
+                    safegard++;
                 }
                 else { break; }
             }
@@ -62,6 +65,29 @@ namespace Mogera
         protected bool IsEof()
         {
             return Original.Length <= Pos;
+        }
+
+        protected string CheckOnlyTrash(string item)
+        {
+            string result = "";
+            foreach (var c in item.ToCharArray())
+            {
+                if (c == " ".ToCharArray()[0] || c == "\n".ToCharArray()[0] || c == "\t".ToCharArray()[0])
+                {
+                    continue;
+                }
+                else
+                {
+                    result += c;
+                }
+            }
+
+            if (result == "")
+            {
+                return result;
+            }
+
+            return item;
         }
     }
 }

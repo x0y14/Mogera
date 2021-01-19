@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Text;
 
 namespace Mogera
 {
@@ -84,33 +85,28 @@ namespace Mogera
             // openingタグ終了 <h1>
             // 次中身をとる。
             result.TagName = openingTagData.Item1;
-            if (GetChar() == "<")
-            {
-                result.Children = AnalyzeTag();
-                result.EnclosedText = null;
-            }
-            else
-            {
-                try
+            ConsumeWhiteSpace();
+            Console.WriteLine(GetChar());
+            if (GetNextChar() != "/"){
+                if (GetChar() == "<")
                 {
-                    result.EnclosedText = ConsumeUntil("<");
+                    result.Children = AnalyzeTag();
                 }
-                catch (Exception e)
+                else
                 {
-                    result.EnclosedText = null;
-                    Console.WriteLine(e);
-                    throw;
+                    result.EnclosedText = CheckOnlyTrash(ConsumeUntil("<"));
                 }
             }
-
             result.ClosingStartedAt = Pos;
             result.Attributes = openingTagData.Item2;
 
             ConsumeChar();// <
+            ConsumeWhiteSpace();
             var closingTagRaw = ConsumeUntil(">");
             var closingTagData = new ElementParser(closingTagRaw).Parse();
             
             result.ClosingEndedAt = Pos;
+            result.ElementEndedAt = Pos;
             ConsumeChar();// >
             return result;
         }
@@ -147,24 +143,14 @@ namespace Mogera
                 if (GetChar() == "<")
                 {
                     var t = AnalyzeTag();
-                    
-                    // Console.WriteLine("[Element]");
-                    // Console.WriteLine($": Type: {t.Type}, Name: {t.TagName}");
-                    // if (t.Attributes != null)
-                    // {
-                    //     Console.WriteLine(": Attributes");
-                    //     foreach (var key in t.Attributes.Keys)
-                    //     {
-                    //         Console.WriteLine($"\t - '{key}' : '{t.Attributes[key]}'");
-                    //     }
-                    // }
-                    
                     elements.Add(t);
-
+                    ConsumeWhiteSpace();
                 }
                 else
                 {
                     Console.WriteLine($"[Parse] unknown object! : '{GetChar()}'");
+                    int i = GetChar().ToCharArray()[0];
+                    Console.WriteLine($"{i}");
                     break;
                 }
             }

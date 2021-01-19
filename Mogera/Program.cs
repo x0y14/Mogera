@@ -37,30 +37,10 @@ namespace Mogera
         }
         public static void Main(string[] args)
         {
-            var hassp = new HtmlParser("<!doctype html><!--H--><!--OOO--><h1 id='welcome-message' class='mes'>good</h1><div><a>link</a></div>");
-            var tags = hassp.Parse();
+            // var hassp = new HtmlParser("<!doctype html><!--H--><!--OOO--><h1 id='welcome-message' class='mes'>good</h1><div><a>link</a></div>");
+            var web = new HtmlParser(System.IO.File.ReadAllText(@"/Users/x0y14/dev/csharp/Mogera/Mogera/examplecom_nostyle.html"));
+            var tags = web.Parse();
             DoDebug(tags, 0);
-            // foreach (var t in tags)
-            // {
-            //     if (t.Type == ElementType.Special)
-            //     {
-            //         Console.WriteLine(
-            //             $"< Special > ElType: {t.Type}, IsComment: {t.IsComment}, DocType: '{t.DocumentType}', Comment: '{t.Comment}'");
-            //         continue;
-            //     }
-            //     Console.WriteLine($"< {t.TagName} > Enclose: '{t.EnclosedText}'");
-            //     Console.WriteLine($": Attributes");
-            //     foreach (var attr in t.Attributes.Keys)
-            //     {
-            //         Console.WriteLine($" - '{attr}' : '{t.Attributes[attr]}'");
-            //     }
-            //
-            //     if (t.Children != null)
-            //     {
-            //         Console.WriteLine(": Children");
-            //         Console.WriteLine($"{t.Children.TagName}");
-            //     }
-            // }
         }
     }
 }
