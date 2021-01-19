@@ -19,7 +19,7 @@ namespace Mogera
                 
                 Console.WriteLine($"{string.Concat(Enumerable.Repeat(" ", nest * 4))}< {element.TagName} ({element.ElementStartedAt}:{element.ElementEndedAt}) > Enclose: '{element.EnclosedText}'");
                 if (element.Attributes != null){
-                    Console.WriteLine($"{string.Concat(Enumerable.Repeat(" ", nest * 4))}: Attributes");
+                    Console.WriteLine($"{string.Concat(Enumerable.Repeat(" ", nest * 4))}  |- Attributes");
                     foreach (var attr in element.Attributes.Keys)
                     {
                         Console.WriteLine(
@@ -29,8 +29,8 @@ namespace Mogera
                 
                 if (element.Children != null)
                 {
-                    Console.WriteLine($"{string.Concat(Enumerable.Repeat(" ", nest * 4))}: Children");
-                    var l = new List<Element> {element.Children};
+                    Console.WriteLine($"{string.Concat(Enumerable.Repeat(" ", nest * 4))}  |- Children");
+                    var l = element.Children;
                     DoDebug(l,nest+1);
                 }
             }

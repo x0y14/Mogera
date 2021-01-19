@@ -85,18 +85,25 @@ namespace Mogera
             // openingタグ終了 <h1>
             // 次中身をとる。
             result.TagName = openingTagData.Item1;
-            ConsumeWhiteSpace();
-            Console.WriteLine(GetChar());
-            if (GetNextChar() != "/"){
-                if (GetChar() == "<")
+            var children = new List<Element>();
+            while (!IsEof())
+            {
+                ConsumeWhiteSpace();
+                if (GetNextChar() != "/")
                 {
-                    result.Children = AnalyzeTag();
-                }
-                else
-                {
+                    if (GetChar() == "<")
+                    {
+                        children.Add(AnalyzeTag());
+                        ConsumeWhiteSpace();
+                        continue;
+                    }
+                    
                     result.EnclosedText = CheckOnlyTrash(ConsumeUntil("<"));
                 }
+                break;
             }
+
+            result.Children = children;
             result.ClosingStartedAt = Pos;
             result.Attributes = openingTagData.Item2;
 

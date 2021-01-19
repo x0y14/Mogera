@@ -20,7 +20,7 @@ namespace Mogera
         
         public string AttributeRaw { get; set; }
         public Dictionary<string, dynamic> Attributes { get; set; }
-        public Element Children { get; set; }// Element
+        public List<Element> Children { get; set; }// Element
         
         public string EnclosedText { get; set; }
         public int OpeningStartedAt { get; set; }//開始タグの
