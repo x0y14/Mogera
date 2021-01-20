@@ -70,7 +70,7 @@ namespace Mogera
         }
         
         private Element AnalyzeNormalTag()
-        {
+        {   ///////
             Element result = new Element(ElementType.Normal);
             result.ElementStartedAt = Pos;
             result.OpeningStartedAt = Pos;
@@ -106,7 +106,11 @@ namespace Mogera
                         continue;
                     }
                     
-                    result.EnclosedText = CheckOnlyTrash(ConsumeUntil("<"));
+                    var enclose = new Element(ElementType.Content);
+                    enclose.ElementStartedAt = Pos;
+                    enclose.EnclosedText = CheckOnlyTrash(ConsumeUntil("<"));
+                    enclose.ElementEndedAt = Pos;
+                    children.Add(enclose);
                 }
                 break;
             }
@@ -163,9 +167,9 @@ namespace Mogera
                 }
                 else
                 {
-                    Console.WriteLine($"[Parse] unknown object! : '{GetChar()}'");
+                    Console.WriteLine($"[Parse @ {Pos}] unknown object! : '{GetChar()}'");
                     int i = GetChar().ToCharArray()[0];
-                    Console.WriteLine($"{i}");
+                    // Console.WriteLine($"{i}");
                     break;
                 }
             }
