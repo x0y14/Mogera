@@ -149,6 +149,15 @@ namespace Mogera
             }
         }
 
+        private Element AnalyzeContent()
+        {
+            var result = new Element(ElementType.Content);
+            result.ElementStartedAt = Pos;
+            result.Content = ConsumeUntil("<");
+            result.ElementEndedAt = Pos;
+            return result;
+        }
+
         public List<Element> Parse()
         {
             List<Element> elements = new List<Element>();
@@ -163,10 +172,13 @@ namespace Mogera
                 }
                 else
                 {
-                    Console.WriteLine($"[Parse] unknown object! : '{GetChar()}'");
-                    int i = GetChar().ToCharArray()[0];
-                    Console.WriteLine($"{i}");
-                    break;
+                    
+                    // Console.WriteLine($"[Parse] unknown object! : '{GetChar()}'");
+                    // int i = GetChar().ToCharArray()[0];
+                    // Console.WriteLine($"{i}");
+                    // break;
+                    var t = AnalyzeContent();
+                    elements.Add(t);
                 }
             }
 

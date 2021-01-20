@@ -23,6 +23,7 @@ namespace Mogera
         public List<Element> Children { get; set; }// Element
         
         public string EnclosedText { get; set; }
+        public string Content { get; set; }
         public int OpeningStartedAt { get; set; }//開始タグの
         public int OpeningEndedAt { get; set; }
         public int ClosingStartedAt { get; set; }// 終了タグの
