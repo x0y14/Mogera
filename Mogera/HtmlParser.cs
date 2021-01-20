@@ -82,9 +82,17 @@ namespace Mogera
             ConsumeChar();// >
             result.AttributeRaw = openingTagRaw;
             var openingTagData = new ElementParser(openingTagRaw).Parse();
+            if (openingTagData.Item1 == ElementType.NoClosing)
+            {
+                result.ElementEndedAt = Pos;
+                result.TagName = openingTagData.Item2;
+                result.Attributes = openingTagData.Item3;
+                ConsumeWhiteSpace();
+                return result;
+            }
             // openingタグ終了 <h1>
             // 次中身をとる。
-            result.TagName = openingTagData.Item1;
+            result.TagName = openingTagData.Item2;
             var children = new List<Element>();
             while (!IsEof())
             {
@@ -105,7 +113,7 @@ namespace Mogera
 
             result.Children = children;
             result.ClosingStartedAt = Pos;
-            result.Attributes = openingTagData.Item2;
+            result.Attributes = openingTagData.Item3;
 
             ConsumeChar();// <
             ConsumeWhiteSpace();

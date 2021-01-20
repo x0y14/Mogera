@@ -23,7 +23,7 @@ namespace Mogera
                     foreach (var attr in element.Attributes.Keys)
                     {
                         Console.WriteLine(
-                            $"{string.Concat(Enumerable.Repeat(" ", nest * 4))} - '{attr}' : '{element.Attributes[attr]}'");
+                            $"{string.Concat(Enumerable.Repeat(" ", nest * 4))}     - '{attr}' : '{element.Attributes[attr]}'");
                     }
                 }
                 
@@ -38,7 +38,7 @@ namespace Mogera
         public static void Main(string[] args)
         {
             // var hassp = new HtmlParser("<!doctype html><!--H--><!--OOO--><h1 id='welcome-message' class='mes'>good</h1><div><a>link</a></div>");
-            var web = new HtmlParser(System.IO.File.ReadAllText(@"/Users/x0y14/dev/csharp/Mogera/Mogera/examplecom_nostyle.html"));
+            var web = new HtmlParser(System.IO.File.ReadAllText(@"/Users/x0y14/dev/csharp/Mogera/Mogera/examplecom.html"));
             var tags = web.Parse();
             DoDebug(tags, 0);
         }

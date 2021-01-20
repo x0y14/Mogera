@@ -6,8 +6,9 @@ namespace Mogera
     public class ElementParser : Parser
     {
         public ElementParser(string data): base(data) {}
-        public (string, Dictionary<string, dynamic>) Parse()
+        public (ElementType, string, Dictionary<string, dynamic>) Parse()
         {
+            // 閉じタグの場合。
             if (GetChar() == "/")
             {
                 var t = "";
@@ -18,14 +19,20 @@ namespace Mogera
 
                 t = t.Substring(1, t.Length - 1);
 
-                return (t, null);
+                return (ElementType.Normal, t, null);
             }
-
+            // 空白を含まないタグ -> 要素なし。
             if (!Original.Contains(" "))
             {
                 // has no attributes
-                return (Original, new Dictionary<string, dynamic>());
+                return (ElementType.Normal, Original, new Dictionary<string, dynamic>());
             }
+
+            // var lastLetter = Original.Substring(Original.Length - 1, 1);
+            // if (lastLetter == "/")
+            // {
+            //     // no closing tag
+            // }
             
             var tagName = ConsumeUntil(" ");
             ConsumeChar();// whiteSpace
@@ -37,6 +44,13 @@ namespace Mogera
             
             while (!IsEof())
             {
+                ConsumeWhiteSpace();
+                if (GetChar() == "/")
+                {
+                    // NoClosingTag!!
+                    // Console.WriteLine("found NoClosingTag!!");
+                    return (ElementType.NoClosing, tagName, attrs);
+                }
                 var key = ConsumeUntil("=");
                 if (key.Contains(" "))// ' id = "..." ' みたいにイコールまでに空白が入っていた場合の処理。
                 {
@@ -71,7 +85,7 @@ namespace Mogera
                 }
             }
             
-            return (tagName, attrs);
+            return (ElementType.Normal, tagName, attrs);
         }
     }
 }
