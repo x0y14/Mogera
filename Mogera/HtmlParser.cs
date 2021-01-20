@@ -15,7 +15,8 @@ namespace Mogera
 
         private Element AnalyzeSpecialTag()
         {
-            Element result = new Element(ElementType.Special);
+            Element result = new Element();
+            result.Type = ElementType.Special;
             result.ElementStartedAt = Pos;
             ConsumeChar();// <
             ConsumeChar();// !
@@ -68,10 +69,36 @@ namespace Mogera
             }
             return result;
         }
+
+        private Element AnalyzeNormalTag2()
+        {
+            Element result = new Element();
+            // <XXX>
+            result.ElementStartedAt = Pos;
+            result.OpeningStartedAt = Pos;
+            ConsumeChar();// <...
+            string openingTagRaw = ConsumeUntil(">");
+            result.OpeningEndedAt = Pos;
+            ConsumeChar();// ...>
+            result.AttributeRaw = openingTagRaw;
+            var openingTagData = new ElementParser(openingTagRaw).Parse();
+            result.Attributes = openingTagData.Item3;
+            result.TagName = openingTagData.Item2;
+            result.Type = openingTagData.Item1;
+            if (openingTagData.Item1 == ElementType.NoClosing)
+            {
+                result.ElementEndedAt = Pos;
+                ConsumeWhiteSpace();
+                return result;
+            }
+            
+            return new Element();
+        }
         
         private Element AnalyzeNormalTag()
-        {   ///////
-            Element result = new Element(ElementType.Normal);
+        {
+            Element result = new Element();
+            result.Type = ElementType.Normal;
             result.ElementStartedAt = Pos;
             result.OpeningStartedAt = Pos;
             ConsumeChar();// <
@@ -106,7 +133,8 @@ namespace Mogera
                         continue;
                     }
                     
-                    var enclose = new Element(ElementType.Content);
+                    var enclose = new Element();
+                    enclose.Type = ElementType.Content;
                     enclose.ElementStartedAt = Pos;
                     enclose.EnclosedText = CheckOnlyTrash(ConsumeUntil("<"));
                     enclose.ElementEndedAt = Pos;

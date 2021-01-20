@@ -30,9 +30,9 @@ namespace Mogera
         public  int ElementStartedAt { get; set; }// タグ全体の
         public  int ElementEndedAt { get; set; }
 
-        public Element(ElementType type)
-        {
-            Type = type;
-        }
+        // public Element(ElementType type)
+        // {
+            // Type = type;
+        // }
     }
 }
